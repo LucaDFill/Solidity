@@ -1,68 +1,215 @@
 pragma solidity ^0.7.0;
 
 
-// https://docs.soliditylang.org/en/v0.7.4/types.html#mapping-types
-contract Mappings {
+// https://docs.soliditylang.org/en/v0.7.4/types.html#structs
+contract Structs {
 
-    // is not possibile to iterate directly a mapping
-    // can be done combining an array to keep track of the indexing
-    // can only be instanced on storage, not memory
-    mapping (address => uint) balances;             // it's like a c# dictionary<address, uint> in this case
+    // declare a struct
+    struct User {
+        address addr;
+        uint amount;
+        bool allowed;
+        string name;
+    }
     
-    function  alterMapping() external payable {
+    
+    function manageStruct(string calldata _name) external {
+        
+        // memory stuct
+        // define a new struct 
+        User memory user = User(msg.sender, 0, false, _name);   // parameters must be in the same order as teh struct definition
+        
+        User memory user1 = User({                              // paramters are named and can be in any order
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        });
+        
+        // access propriety
+        uint amount = user.amount;
+        bool allowed = user1.allowed;
+        
+        // set propriety
+        user.amount = amount;
+        user1.allowed = false;
+        
+        // delete a struct 
+        delete user;
+        delete user1;
+    }
+    
+    
+    // storage struct array
+    User[] users;
+    
+    function manageStructArr(string calldata _name) external {
+        
+        User memory user = User({                            
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        });
+        
+        // add new user
+        users.push(user);
+        
+        users.push(User({
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        }));
+        
+        // access
+        User memory u = users[0];
+        
+        // update
+        users[0].allowed = true;
+        
+        // delete
+        users.pop();
+        delete users[0];
+    }
+    
+    
+    // storage mapping struct
+    mapping(address => User) userMapping;
+    
+    function manageStructMapping(string calldata _name) external {
+        
+         User memory user = User({                             
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        });
+        
+        // add new user
+        userMapping[msg.sender] = user;
+        
+        userMapping[msg.sender] = User({
+            addr: msg.sender,
+            allowed: true,pragma solidity ^0.7.0;
+
+
+// https://docs.soliditylang.org/en/v0.7.4/types.html#structs
+contract Structs {
+
+    // declare a struct
+    struct User {
+        address addr;
+        uint amount;
+        bool allowed;
+        string name;
+    }
+    
+    
+    function manageStruct(string calldata _name) external {
+        
+        // memory stuct
+        // define a new struct 
+        User memory user = User(msg.sender, 0, false, _name);   // parameters must be in the same order as the definition
+        
+        User memory user1 = User({                              // parameters are named and can be in any order
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        });
+        
+        // access 
+        uint amount = user.amount;
+        bool allowed = user1.allowed;
+        
+        // update
+        user.amount = amount;
+        user1.allowed = false;
+        
+        // delete 
+        delete user;
+        delete user1;
+    }
+    
+    
+    // storage struct array
+    User[] users;
+    
+    function manageStructArr(string calldata _name) external {
+        
+        User memory user = User({                            
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        });
         
         // add
-        balances[msg.sender] = msg.value;
+        users.push(user);
         
-        // read
-        uint sentVal = balances[msg.sender];
+        users.push(User({
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        }));
         
-        // update 
-        balances[msg.sender] = 1;
+        // access
+        User memory u = users[0];
+        
+        // update
+        users[0].allowed = true;
         
         // delete
-        delete balances[msg.sender];
-        
-        // default value of entries no present in mapping will return the corrisponding default value
-        uint nonExisting = balances[address(0)];    // 0 
+        users.pop();
+        delete users[0];
     }
     
     
-    // nested mapping
-    mapping(address => mapping(address => bool)) nestedMapping;
+    // storage mapping struct
+    mapping(address => User) userMapping;
     
-    function alterNestedMapping(address _spender) external {
+    function manageStructMapping(string calldata _name) external {
         
-        // add 
-        nestedMapping[msg.sender][_spender] = true;
-            
-        // read
-        bool isOk = nestedMapping[msg.sender][_spender];
+         User memory user = User({                             
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        });
+        
+        // add
+        userMapping[msg.sender] = user;
+        
+        userMapping[msg.sender] = User({
+            addr: msg.sender,
+            allowed: true,
+            name: _name,
+            amount: 0
+        });
+        
+        // access 
+        User memory u = userMapping[msg.sender];
         
         // update 
-        nestedMapping[msg.sender][_spender] = false;
+        userMapping[msg.sender].allowed = false;
         
         // delete
-        delete nestedMapping[msg.sender][_spender];
+        delete userMapping[msg.sender];
     }
-    
-    
-    // mapping to array
-    mapping(address => uint[]) mapToArr;        // no need to initialize the inner array 
-                                                // since in mapping every value is at default value
-    function alterMapToArr() external {
+}
+            name: _name,
+            amount: 0
+        });
         
-        // add 
-        mapToArr[msg.sender].push(1);
-            
-        // read
-        uint sentVal = mapToArr[msg.sender][0];
+        // access 
+        User memory u = userMapping[msg.sender];
         
         // update 
-        mapToArr[msg.sender][0] = 2;
+        userMapping[msg.sender].allowed = false;
         
         // delete
-        mapToArr[msg.sender].pop();
-        delete mapToArr[msg.sender][0];
+        delete userMapping[msg.sender];
     }
 }
