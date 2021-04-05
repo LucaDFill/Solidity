@@ -18,4 +18,24 @@ contract TransferringEther{
         uint amountSent = msg.value;                // amount in wei transferred
         uint scBalance = address(this).balance;     // smart contract balance in wei
     }
+    
+    // another candidate for receiving ether 
+    // if no function is called and ether is sent to the smart contract this function will be called
+    
+    // https://docs.soliditylang.org/en/v0.8.3/contracts.html#receive-ether-function
+    // This function cannot have arguments, cannot return anything and must have external visibility and payable state mutability. 
+    // It can be virtual, can override and can have modifiers.
+    receive() external payable {
+        
+        uint amountSent = msg.value;                // amount in wei transferred
+        uint scBalance = address(this).balance;     // smart contract balance in wei
+    }
+    
+    // if recieve() external payable is NOT defined
+    // but is defined a fallback() external payable function, this will be triggered
+    fallback() external payable {
+        
+        uint amountSent = msg.value;                // amount in wei transferred
+        uint scBalance = address(this).balance;     // smart contract balance in wei
+    }
 }
