@@ -5,16 +5,16 @@ pragma solidity ^0.7.0;
 contract BuiltInVars {
     
     // ether units
-    uint _wei = 1 wei;      // 1
-    uint _gwei = 1 gwei;    // 1e9        
-    uint _ether = 1 ether;  // 1e18
+    uint _wei                   = 1 wei;                        // 1
+    uint _gwei                  = 1 gwei;                       // 1e9        
+    uint _ether                 = 1 ether;                      // 1e18
     
     // time units
-    uint _seconds = 1 seconds;
-    uint _minutes = 1 minutes;
-    uint _hours = 1 hours;
-    uint _days = 1 days;
-    uint _weeks = 1 weeks;
+    uint _seconds               = 1 seconds;
+    uint _minutes               = 1 minutes;
+    uint _hours                 = 1 hours;
+    uint _days                  = 1 days;
+    uint _weeks                 = 1 weeks;
     
     // Special Variables and Functions
     // There are special variables and functions which always exist in the global namespace 
