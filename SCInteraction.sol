@@ -4,7 +4,6 @@ pragma solidity ^0.7.0;
 import 'HelloWorld.sol';
 
 
-// https://docs.soliditylang.org/en/v0.8.3/contracts.html#events
 contract SCInteraction {
     
     // for calling another smart contract function we need:
